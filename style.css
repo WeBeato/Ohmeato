@@ -162,4 +162,12 @@ header {
     border-radius: 5rem;
     background-color: #fff;
     margin: 12rem auto 0;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.output p{
+    font-size: 2rem;
 }

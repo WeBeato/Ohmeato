@@ -22,24 +22,24 @@ const colors = {
 
 //     const bands = res.length;
 
-//     function formatValue(resValue) {
-//         let formatted;
+function formatValue(resValue) {
+    let formatted;
 
-//         if (resValue >= 1000000) {
-//             formatted = resValue / 1000000;
-//             formatted = +formatted.toFixed(2);
-//             return formatted + '㏁';
-//         }
-//         else if (resValue >= 1_000) {
-//             formatted = resValue / 1000;
-//             formatted = +formatted.toFixed(2);
-//             return formatted + '㏀';
-//         }
-//         else {
-//             formatted = +resValue.toFixed(2);
-//             return formatted + 'Ω';
-//         }
-//     }
+    if (resValue >= 1000000) {
+        formatted = resValue / 1000000;
+        formatted = +formatted.toFixed(2);
+        return formatted + '㏁';
+    }
+    else if (resValue >= 1_000) {
+        formatted = resValue / 1000;
+        formatted = +formatted.toFixed(2);
+        return formatted + '㏀';
+    }
+    else {
+        formatted = +resValue.toFixed(2);
+        return formatted + 'Ω';
+    }
+}
 
 //     if (bands == 4) {
 //         const band1 = colors[res[0]].digit;
@@ -108,7 +108,7 @@ function calcRes() {
                     r4BD1Show = true;
                 }
             })
-        ;
+            ;
 
         const digit1Btns = document.querySelectorAll('#res__4bands .digit1 .digit-btn');
         digit1Btns.forEach(digitBtn => {
@@ -116,7 +116,7 @@ function calcRes() {
                 const btnColor = digitBtn.dataset.color;
                 const digit1 = document.getElementById('digit1');
                 digit1.style.backgroundColor = btnColor;
-                digit1.setAttribute('data-color',btnColor);
+                digit1.setAttribute('data-color', btnColor);
 
             })
         });
@@ -142,7 +142,8 @@ function calcRes() {
                 const btnColor = digitBtn.dataset.color;
                 const digit2 = document.getElementById('digit2');
                 digit2.style.backgroundColor = btnColor;
-                digit2.setAttribute('data-color',btnColor);            })
+                digit2.setAttribute('data-color', btnColor);
+            })
         });
 
 
@@ -166,7 +167,7 @@ function calcRes() {
                 const btnColor = multiplierBtn.dataset.color;
                 const multiplier = document.getElementById('multiplier');
                 multiplier.style.backgroundColor = btnColor;
-                multiplier.setAttribute('data-color',btnColor);
+                multiplier.setAttribute('data-color', btnColor);
             })
         });
 
@@ -184,7 +185,7 @@ function calcRes() {
                     r4BTShow = true;
                 }
             })
-        ;
+            ;
 
         const toleranceBtns = document.querySelectorAll('#res__4bands .tolerance .tolerance-btn');
         toleranceBtns.forEach(toleranceBtn => {
@@ -192,10 +193,38 @@ function calcRes() {
                 const btnColor = toleranceBtn.dataset.color;
                 const tolerance = document.getElementById('tolerance');
                 tolerance.style.backgroundColor = btnColor;
-                tolerance.setAttribute('data-color',btnColor);            })
+                tolerance.setAttribute('data-color', btnColor);
+            })
         });
 
-        
+        // Get Input Colors
+        let inputColors = [];
+        const resBands = document.querySelector('#res__4bands');
+        const observer = new MutationObserver(() => {
+            const bands = document.querySelectorAll('#res__4bands .band');
+            inputColors = [...bands].map(band => band.dataset.color);
+            resValue();
+        });
+
+        observer.observe(resBands, {
+
+            attributes: true,
+            subtree: true,
+            attributeFilter: ['data-color']
+        });
+
+        function resValue() {
+            const band1 = colors[inputColors[0]].digit;
+            const band2 = colors[inputColors[1]].digit;
+            const multiplier = colors[inputColors[2]].multiplier;
+            const tolerance = colors[inputColors[3]].tolerance;
+            const result = (band1 * 10 + band2) * multiplier;
+            const formattedValue = formatValue(result);
+            
+            document.querySelector('.output p')
+            .textContent = `${formattedValue}, ${tolerance}%`;
+        }
+
     }
 
 
