@@ -22,4 +22,4 @@ It supports **4-band**, **5-band**, and **6-band** resistors, showing the resist
 ---
 
 ## 🚀 Live Demo
-🔗 (View on GitHub Pages)[https://webeato.github.io/Ohmeato/]
+🔗 [View on GitHub Pages](https://webeato.github.io/Ohmeato/)
