@@ -13,14 +13,6 @@ const colors = {
     silver: { multiplier: 0.01, tolerance: 10 }
 };
 
-// const example = ['yellow', 'violet', 'red', 'silver'];
-// const example1 = ['blue', 'gray', 'black', 'red', 'gold'];
-// const example2 = ['green', 'blue', 'black', 'orange', 'violet', 'red'];
-
-
-// function calcRes(res) {
-
-//     const bands = res.length;
 
 function formatValue(resValue) {
     let formatted;
@@ -41,46 +33,6 @@ function formatValue(resValue) {
     }
 }
 
-//     if (bands == 4) {
-//         const band1 = colors[res[0]].digit;
-//         const band2 = colors[res[1]].digit;
-//         const multiplier = colors[res[2]].multiplier;
-//         const tolerance = colors[res[3]].tolerance;
-//         const result = (band1 * 10 + band2) * multiplier;
-//         const formattedValue = formatValue(result);
-//         console.log(`${formattedValue}, ${tolerance}%`);
-//     }
-
-//     else if (bands == 5) {
-//         const band1 = colors[res[0]].digit;
-//         const band2 = colors[res[1]].digit;
-//         const band3 = colors[res[2]].digit;
-//         const multiplier = colors[res[3]].multiplier;
-//         const tolerance = colors[res[4]].tolerance;
-//         const result = (band1 * 100 + band2 * 10 + band3) * multiplier;
-//         const formattedValue = formatValue(result);
-//         console.log(`${formattedValue}, ${tolerance}%`);
-
-//     }
-
-//     else if (bands == 6) {
-//         const band1 = colors[res[0]].digit;
-//         const band2 = colors[res[1]].digit;
-//         const band3 = colors[res[2]].digit;
-//         const multiplier = colors[res[3]].multiplier;
-//         const tolerance = colors[res[4]].tolerance;
-//         const tc = colors[res[5]].tc;
-//         const result = (band1 * 100 + band2 * 10 + band3) * multiplier;
-//         const formattedValue = formatValue(result);
-//         console.log(`${formattedValue}, ${tolerance}%, ${tc}ppm`);
-//     }
-
-
-// }
-
-// calcRes(['brown', 'black', 'brown', 'gold']);
-
-
 
 document.addEventListener('DOMContentLoaded', () => {
     const resBands = document.querySelectorAll('input[name="bands"]');
@@ -90,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function calcRes() {
+    document.querySelector('.output p')
+        .textContent = '';
+
     if (document.getElementById('4bands').checked) {
         document.getElementById('res__4bands').style.display = 'flex';
         document.getElementById('res__5bands').style.display = 'none';
@@ -220,9 +175,9 @@ function calcRes() {
             const tolerance = colors[inputColors[3]].tolerance;
             const result = (band1 * 10 + band2) * multiplier;
             const formattedValue = formatValue(result);
-            
+
             document.querySelector('.output p')
-            .textContent = `${formattedValue}, ${tolerance}%`;
+                .textContent = `${formattedValue}, ${tolerance}%`;
         }
 
     }
@@ -252,7 +207,9 @@ function calcRes() {
         digit1Btns.forEach(digitBtn => {
             digitBtn.addEventListener('click', () => {
                 const btnColor = digitBtn.dataset.color;
-                document.getElementById('r5digit1').style.backgroundColor = btnColor;
+                const digit1 = document.getElementById('r5digit1');
+                digit1.style.backgroundColor = btnColor;
+                digit1.setAttribute('data-color', btnColor);
             })
         });
 
@@ -275,7 +232,9 @@ function calcRes() {
         digit2Btns.forEach(digitBtn => {
             digitBtn.addEventListener('click', () => {
                 const btnColor = digitBtn.dataset.color;
-                document.getElementById('r5digit2').style.backgroundColor = btnColor;
+                const digit2 = document.getElementById('r5digit2');
+                digit2.style.backgroundColor = btnColor;
+                digit2.setAttribute('data-color', btnColor);
             })
         });
 
@@ -298,7 +257,9 @@ function calcRes() {
         digit3Btns.forEach(digitBtn => {
             digitBtn.addEventListener('click', () => {
                 const btnColor = digitBtn.dataset.color;
-                document.getElementById('r5digit3').style.backgroundColor = btnColor;
+                const digit3 = document.getElementById('r5digit3');
+                digit3.style.backgroundColor = btnColor;
+                digit3.setAttribute('data-color', btnColor);
             })
         });
 
@@ -321,7 +282,9 @@ function calcRes() {
         multiplierBtns.forEach(multiplierBtn => {
             multiplierBtn.addEventListener('click', () => {
                 const btnColor = multiplierBtn.dataset.color;
-                document.getElementById('r5multiplier').style.backgroundColor = btnColor;
+                const multiplier = document.getElementById('r5multiplier');
+                multiplier.style.backgroundColor = btnColor;
+                multiplier.setAttribute('data-color', btnColor);
             })
         });
 
@@ -345,9 +308,42 @@ function calcRes() {
         toleranceBtns.forEach(toleranceBtn => {
             toleranceBtn.addEventListener('click', () => {
                 const btnColor = toleranceBtn.dataset.color;
-                document.getElementById('r5tolerance').style.backgroundColor = btnColor;
+                const tolerance = document.getElementById('r5tolerance');
+                tolerance.style.backgroundColor = btnColor;
+                tolerance.setAttribute('data-color', btnColor);
             })
         });
+
+
+        // Get Input Colors
+        let inputColors = [];
+        const resBands = document.querySelector('#res__5bands');
+        const observer = new MutationObserver(() => {
+            const bands = document.querySelectorAll('#res__5bands .band');
+            inputColors = [...bands].map(band => band.dataset.color);
+            resValue();
+        });
+
+        observer.observe(resBands, {
+
+            attributes: true,
+            subtree: true,
+            attributeFilter: ['data-color']
+        });
+
+        function resValue() {
+            const band1 = colors[inputColors[0]].digit;
+            const band2 = colors[inputColors[1]].digit;
+            const band3 = colors[inputColors[2]].digit;
+            const multiplier = colors[inputColors[3]].multiplier;
+            const tolerance = colors[inputColors[4]].tolerance;
+            const result = (band1 * 100 + band2 * 10 + band3) * multiplier;
+            const formattedValue = formatValue(result);
+            console.log(`${formattedValue}, ${tolerance}%`);
+
+            document.querySelector('.output p')
+                .textContent = `${formattedValue}, ${tolerance}%`;
+        };
     }
 
 
@@ -375,7 +371,9 @@ function calcRes() {
         digit1Btns.forEach(digitBtn => {
             digitBtn.addEventListener('click', () => {
                 const btnColor = digitBtn.dataset.color;
-                document.getElementById('r6digit1').style.backgroundColor = btnColor;
+                const digit1 = document.getElementById('r6digit1');
+                digit1.style.backgroundColor = btnColor;
+                digit1.setAttribute('data-color', btnColor);
             })
         });
 
@@ -398,7 +396,9 @@ function calcRes() {
         digit2Btns.forEach(digitBtn => {
             digitBtn.addEventListener('click', () => {
                 const btnColor = digitBtn.dataset.color;
-                document.getElementById('r6digit2').style.backgroundColor = btnColor;
+                const digit1 = document.getElementById('r6digit2');
+                digit1.style.backgroundColor = btnColor;
+                digit1.setAttribute('data-color', btnColor);
             })
         });
 
@@ -421,7 +421,9 @@ function calcRes() {
         digit3Btns.forEach(digitBtn => {
             digitBtn.addEventListener('click', () => {
                 const btnColor = digitBtn.dataset.color;
-                document.getElementById('r6digit3').style.backgroundColor = btnColor;
+                const digit1 = document.getElementById('r6digit3');
+                digit1.style.backgroundColor = btnColor;
+                digit1.setAttribute('data-color', btnColor);
             })
         });
 
@@ -444,7 +446,9 @@ function calcRes() {
         multiplierBtns.forEach(multiplierBtn => {
             multiplierBtn.addEventListener('click', () => {
                 const btnColor = multiplierBtn.dataset.color;
-                document.getElementById('r6multiplier').style.backgroundColor = btnColor;
+                const multiplier = document.getElementById('r6multiplier');
+                multiplier.style.backgroundColor = btnColor;
+                multiplier.setAttribute('data-color', btnColor);
             })
         });
 
@@ -468,7 +472,9 @@ function calcRes() {
         toleranceBtns.forEach(toleranceBtn => {
             toleranceBtn.addEventListener('click', () => {
                 const btnColor = toleranceBtn.dataset.color;
-                document.getElementById('r6tolerance').style.backgroundColor = btnColor;
+                const tolerance = document.getElementById('r6tolerance');
+                tolerance.style.backgroundColor = btnColor;
+                tolerance.setAttribute('data-color', btnColor);
             })
         });
 
@@ -491,8 +497,46 @@ function calcRes() {
         tcBtns.forEach(tcBtn => {
             tcBtn.addEventListener('click', () => {
                 const btnColor = tcBtn.dataset.color;
-                document.getElementById('tc').style.backgroundColor = btnColor;
+                const tc = document.getElementById('tc');
+                tc.style.backgroundColor = btnColor;
+                tc.setAttribute('data-color', btnColor);
             })
         });
+
+
+        // Get Input Colors
+        let inputColors = [];
+        const resBands = document.querySelector('#res__6bands');
+        const observer = new MutationObserver(() => {
+            const bands = document.querySelectorAll('#res__6bands .band');
+            inputColors = [...bands].map(band => band.dataset.color);
+            resValue();
+        });
+
+        observer.observe(resBands, {
+
+            attributes: true,
+            subtree: true,
+            attributeFilter: ['data-color']
+        });
+
+        function resValue() {
+            const band1 = colors[inputColors[0]].digit;
+            const band2 = colors[inputColors[1]].digit;
+            const band3 = colors[inputColors[2]].digit;
+            const multiplier = colors[inputColors[3]].multiplier;
+            const tolerance = colors[inputColors[4]].tolerance;
+            const tc = colors[inputColors[5]].tc;
+            const result = (band1 * 100 + band2 * 10 + band3) * multiplier;
+            const formattedValue = formatValue(result);
+
+            document.querySelector('.output p')
+                .textContent = `${formattedValue}, ${tolerance}%, ${tc}ppm`;
+        };
     }
 }
+
+
+// example = ['yellow', 'violet', 'red', 'silver'];
+// example1 = ['blue', 'gray', 'black', 'red', 'gold'];
+// example2 = ['green', 'blue', 'black', 'orange', 'violet', 'red'];
