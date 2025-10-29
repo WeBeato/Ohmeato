@@ -32,7 +32,9 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-around;
+    flex-wrap: wrap;
     max-width: 60rem;
+    gap: 2rem;
     margin: 0 auto;
 }
 
@@ -61,7 +63,7 @@ header {
     content: '';
     position: absolute;
     height: 1rem;
-    width: 12em;
+    width: 14rem;
     background-color: #a4a4a4;
     top: 45%;
     border-radius: 1rem;
@@ -129,6 +131,7 @@ header {
     top: 75%;
     transition: all 250ms;
 }
+
 .digit-colors--show,
 .multiplier-colors--show,
 .tolerance-colors--show,
@@ -156,7 +159,7 @@ header {
     transform: scale(1.1);
 }
 
-.output{
+.output {
     width: 18rem;
     height: 6rem;
     border-radius: 5rem;
@@ -168,6 +171,178 @@ header {
     justify-content: center;
 }
 
-.output p{
+.output p {
     font-size: 2rem;
+}
+
+footer {
+    margin-top: 6rem;
+}
+
+
+/* Responsive */
+@media (max-width:576px) {
+    .title {
+        font-size: 2.8rem;
+    }
+
+    .caption {
+        font-size: 2rem;
+    }
+
+    .res {
+        width: 28rem;
+    }
+
+    .res::before,
+    .res::after {
+        width: 10rem;
+    }
+
+    .res::before {
+        right: -9rem;
+    }
+
+    .res::after {
+        left: -9rem;
+    }
+
+    .band {
+        width: 2.5rem;
+    }
+
+    #res__4bands .digit1 {
+        border-top-left-radius: .6rem;
+        border-bottom-left-radius: .6rem;
+    }
+
+    #res__4bands .tolerance {
+        border-top-right-radius: .6rem;
+        border-bottom-right-radius: .6rem;
+    }
+
+    #res__5bands .r5digit1 {
+        border-top-left-radius: 1.5rem;
+        border-bottom-left-radius: 1.5rem;
+    }
+
+    #res__5bands .r5tolerance {
+        border-top-right-radius: 1.5rem;
+        border-bottom-right-radius: 1.5rem;
+    }
+
+    #res__6bands .r6digit1 {
+        border-top-left-radius: 2.2rem;
+        border-bottom-left-radius: 2.2rem;
+    }
+
+    #res__6bands .tc {
+        border-top-right-radius: 2.2rem;
+        border-bottom-right-radius: 2.2rem;
+    }
+}
+
+@media (max-width:480px) {
+    .title {
+        font-size: 2.6rem;
+    }
+
+    .caption {
+        font-size: 1.8rem;
+    }
+
+    .band-count input {
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+
+    .band-count label {
+        font-size: 1.8rem;
+    }
+
+    .res {
+        width: 28rem;
+    }
+
+    .res::before,
+    .res::after {
+        width: 8rem;
+    }
+
+    .res::before {
+        right: -7rem;
+    }
+
+    .res::after {
+        left: -7rem;
+    }
+
+    #res__4bands .digit1 {
+        border-top-left-radius: .6rem;
+        border-bottom-left-radius: .6rem;
+    }
+
+    #res__4bands .tolerance {
+        border-top-right-radius: .6rem;
+        border-bottom-right-radius: .6rem;
+    }
+
+    #res__5bands .r5digit1 {
+        border-top-left-radius: 1.4rem;
+        border-bottom-left-radius: 1.4rem;
+    }
+
+    #res__5bands .r5tolerance {
+        border-top-right-radius: 1.4rem;
+        border-bottom-right-radius: 1.4rem;
+    }
+
+    #res__6bands .r6digit1 {
+        border-top-left-radius: 2.1rem;
+        border-bottom-left-radius: 2.1rem;
+    }
+
+    #res__6bands .tc {
+        border-top-right-radius: 2.1rem;
+        border-bottom-right-radius: 2.1rem;
+    }
+
+    .digit-btn,
+    .multiplier-btn,
+    .tolerance-btn,
+    .tc-btn {
+        width: 5rem;
+    }
+
+
+}
+
+@media (max-width:430px) {
+    body {
+        padding: 0 1rem;
+    }
+
+    .title {
+        font-size: 2.4rem;
+    }
+
+    .res {
+        transform: scale(0.85);
+    }
+
+    .res::before,
+    .res::after {
+        display: none;
+    }
+
+    .band {
+        width: 2.5rem;
+    }
+
+    .digit-btn,
+    .multiplier-btn,
+    .tolerance-btn,
+    .tc-btn {
+        transform: scale(0.9);
+    }
 }
