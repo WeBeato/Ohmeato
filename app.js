@@ -20,12 +20,12 @@ function formatValue(resValue) {
     if (resValue >= 1000000) {
         formatted = resValue / 1000000;
         formatted = +formatted.toFixed(2);
-        return formatted + '㏁';
+        return formatted + 'Ω';
     }
     else if (resValue >= 1_000) {
         formatted = resValue / 1000;
         formatted = +formatted.toFixed(2);
-        return formatted + '㏀';
+        return formatted + 'Ω';
     }
     else {
         formatted = +resValue.toFixed(2);
